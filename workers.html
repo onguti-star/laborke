@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Workers - Manual Labor Kenya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-1: #1a2b4a;
+            --bg-2: #2a5f6a;
+            --muted: #9ca3af;
+            --accent: #d97706;
+            --surface: #e5e7eb;
+            --text: #1f2937;
+            --header-from: #6b4e8e;
+            --header-to: #4a6f9c;
+            --footer: #1e293b;
+            --glass: rgba(255,255,255,0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body { height: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        header {
+            background: linear-gradient(to right, var(--header-from), var(--header-to));
+            color: #f3f4f6;
+            padding: 1.25rem 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        nav a {
+            color: #f3f4f6;
+            margin: 0 0.5rem;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            bottom: -5px;
+            left: 0;
+            animation: slideIn 0.2s ease;
+        }
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            color: #fff;
+            font-size: 1.25rem;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 1rem;
+        }
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .toggle-dark {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            margin-top: 2rem;
+        }
+        section {
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 2rem;
+            color: var(--bg-1);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+        .workers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+        .card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), #fff);
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(16,24,40,0.06);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent), var(--header-from));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+        }
+        .card h3 {
+            margin: 0 0 0.25rem 0;
+        }
+        .chip {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 999px;
+            font-size: 0.85rem;
+            margin-right: 0.4rem;
+            border: 1px solid rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+        .card .chip {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--muted);
+            padding: 0.35rem 0.6rem;
+            border-radius: 8px;
+        }
+        .card .contact {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.45rem 0.8rem;
+            border-radius: 8px;
+        }
+        .card .save {
+            background: #fff;
+            color: var(--text);
+            border: 1px solid var(--muted);
+            padding: 0.35rem 0.6rem;
+            border-radius: 8px;
+        }
+        .dark .card .save {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .toolbar input[type='search'] {
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: 1px solid var(--muted);
+            min-width: 180px;
+        }
+        .sort-select {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--muted);
+        }
+        footer {
+            background: var(--footer);
+            color: #f3f4f6;
+            padding: 2rem;
+            text-align: center;
+        }
+        footer p {
+            margin-bottom: 1rem;
+        }
+        .social-icons a {
+            color: #f3f4f6;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.25rem; }
+            .container { padding: 1.25rem; margin: 1rem; }
+            nav a { margin: 0 0.4rem; font-size: 0.95rem; }
+            .nav-toggle { display: inline-flex; }
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: linear-gradient(180deg, var(--header-from), var(--header-to));
+                padding: 1rem;
+                border-radius: 8px;
+                margin: 0.5rem;
+            }
+        }
+        .dark {
+            --bg-1: #0b1220;
+            --bg-2: #0f1724;
+            --text: #e6eef8;
+            --surface: #0f1724;
+            --muted: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div style="display:flex;flex-direction:column">
+                <h1 style="line-height:1">Manual Labor Kenya</h1>
+                <small style="opacity:0.9;font-weight:300">Connecting Skilled Workers and Clients Across Kenya</small>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="toggle-dark" id="darkToggle" aria-pressed="false">🌙</button>
+            <button class="nav-toggle" id="navToggle" aria-label="Open navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html#home">Home</a>
+                <a href="workers.html">Find Workers</a>
+                <a href="post-job.html">Post Job</a>
+                <a href="saved-jobs.html">Saved Jobs</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="index.html#about">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="workers">
+            <h2>Find Skilled Workers</h2>
+            <p>Search for professionals based on their skills and location to find the perfect match for your project.</p>
+            <div class="toolbar">
+                <input type="search" id="searchInput" placeholder="Search by skill or location..." aria-label="Search workers">
+                <select id="sortSelect" class="sort-select" aria-label="Sort workers">
+                    <option value="relevance">Sort: Relevance</option>
+                    <option value="rating">Sort: Rating</option>
+                    <option value="experience">Sort: Experience</option>
+                </select>
+                <button id="seedData" class="chip">Seed sample data</button>
+                <button id="clearCache" class="chip">Clear saved jobs</button>
+            </div>
+            <div id="workersGrid" class="workers-grid" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Manual Labor Kenya. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        const $ = selector => document.querySelector(selector);
+        const $$ = selector => Array.from(document.querySelectorAll(selector));
+
+        const navToggle = $('#navToggle');
+        const navMenu = $('#navMenu');
+        navToggle && navToggle.addEventListener('click', () => toggleNav());
+        function toggleNav(force) {
+            const isShown = navMenu && (navMenu.style.display === 'flex' || getComputedStyle(navMenu).display === 'flex');
+            const show = force !== undefined ? force : !isShown;
+            if (!navMenu) return;
+            navMenu.style.display = show ? 'flex' : 'none';
+        }
+
+        const darkToggle = $('#darkToggle');
+        darkToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            darkToggle.setAttribute('aria-pressed', String(isDark));
+            darkToggle.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('mlk_dark', isDark ? '1' : '0');
+        });
+        if (localStorage.getItem('mlk_dark') === '1') {
+            document.documentElement.classList.add('dark');
+            darkToggle.textContent = '☀️';
+            darkToggle.setAttribute('aria-pressed', 'true');
+        }
+
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.12 });
+
+        sections.forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+            observer.observe(section);
+        });
+
+        const workersKey = 'mlk_workers_sample';
+        const savedJobsKey = 'mlk_saved_jobs';
+        const sampleWorkers = [
+            { id: 1, name: 'John Mwangi', skill: 'Plumber', location: 'Nairobi', rating: 4.6, years: 5 },
+            { id: 2, name: 'Aisha Hassan', skill: 'Electrician', location: 'Mombasa', rating: 4.8, years: 7 },
+            { id: 3, name: 'Peter Otieno', skill: 'Carpenter', location: 'Kisumu', rating: 4.4, years: 4 },
+            { id: 4, name: 'Grace Njeri', skill: 'Painter', location: 'Nairobi', rating: 4.7, years: 6 },
+            { id: 5, name: 'Sam Kimani', skill: 'Tiler', location: 'Nakuru', rating: 4.2, years: 3 }
+        ];
+
+        function seedWorkers() {
+            localStorage.setItem(workersKey, JSON.stringify(sampleWorkers));
+            renderWorkers(sampleWorkers);
+        }
+
+        function readWorkers() {
+            try {
+                const raw = localStorage.getItem(workersKey);
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) { return []; }
+        }
+
+        function renderWorkers(list) {
+            const container = $('#workersGrid');
+            container.innerHTML = '';
+            if (!list.length) {
+                container.innerHTML = '<p style="grid-column:1/-1">No workers found. Try seeding sample data.</p>';
+                return;
+            }
+            list.forEach(w => {
+                const el = document.createElement('article');
+                el.className = 'card';
+                el.innerHTML = `
+                    <div class="avatar" aria-hidden="true">${w.name.split(' ').map(n => n[0]).slice(0, 2).join('')}</div>
+                    <div style="flex:1">
+                        <h3>${w.name} <small style="color:var(--muted);font-weight:600">• ${w.skill}</small></h3>
+                        <p style="margin:0.25rem 0;color:var(--muted)">${w.location}</p>
+                        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+                            <span class="chip">⭐ ${w.rating}</span>
+                            <button class="chip contact" data-id="${w.id}">Contact</button>
+                            <button class="chip save" data-name="${encodeURIComponent(w.name)}">Save</button>
+                        </div>
+                    </div>`;
+                container.appendChild(el);
+            });
+
+            $$('.contact').forEach(btn => btn.addEventListener('click', e => {
+                const id = Number(e.target.dataset.id);
+                const worker = readWorkers().find(x => x.id === id);
+                if (worker) alert(`Contact ${worker.name} via phone or email (demo).`);
+            }));
+
+            $$('.save').forEach(btn => btn.addEventListener('click', e => {
+                const name = decodeURIComponent(e.target.dataset.name);
+                saveJob({ title: `Hire ${name}`, savedAt: Date.now() });
+                alert(`Job saved for ${name}. View in Saved Jobs page.`);
+            }));
+        }
+
+        function saveJob(job) {
+            const existing = JSON.parse(localStorage.getItem(savedJobsKey) || '[]');
+            existing.push(job);
+            localStorage.setItem(savedJobsKey, JSON.stringify(existing));
+        }
+
+        const searchInput = $('#searchInput');
+        const sortSelect = $('#sortSelect');
+        const seedBtn = $('#seedData');
+        const clearCacheBtn = $('#clearCache');
+
+        seedBtn.addEventListener('click', (ev) => { ev.preventDefault(); seedWorkers(); });
+        clearCacheBtn.addEventListener('click', (ev) => { ev.preventDefault(); localStorage.removeItem(savedJobsKey); alert('Saved jobs cleared.'); });
+
+        function applyFilters() {
+            const q = (searchInput.value || '').toLowerCase().trim();
+            const workers = readWorkers();
+            let filtered = workers.filter(w => (w.name + w.skill + w.location).toLowerCase().includes(q));
+            const sort = sortSelect.value;
+            if (sort === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+            else if (sort === 'experience') filtered.sort((a, b) => {
+                if (b.years !== a.years) return b.years - a.years;
+                return b.rating - a.rating;
+            });
+            renderWorkers(filtered);
+        }
+
+        searchInput && searchInput.addEventListener('input', applyFilters);
+        sortSelect && sortSelect.addEventListener('change', applyFilters);
+
+        (function init() {
+            const existing = readWorkers();
+            if (!existing || existing.length === 0) {
+                localStorage.setItem(workersKey, JSON.stringify(sampleWorkers));
+            }
+            renderWorkers(readWorkers());
+        })();
+    </script>
+</body>
+</html>

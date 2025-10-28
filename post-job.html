@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - Manual Labor Kenya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-1: #1a2b4a;
+            --bg-2: #2a5f6a;
+            --muted: #9ca3af;
+            --accent: #d97706;
+            --surface: #e5e7eb;
+            --text: #1f2937;
+            --header-from: #6b4e8e;
+            --header-to: #4a6f9c;
+            --footer: #1e293b;
+            --glass: rgba(255,255,255,0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body { height: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        header {
+            background: linear-gradient(to right, var(--header-from), var(--header-to));
+            color: #f3f4f6;
+            padding: 1.25rem 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        nav a {
+            color: #f3f4f6;
+            margin: 0 0.5rem;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            bottom: -5px;
+            left: 0;
+            animation: slideIn 0.2s ease;
+        }
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            color: #fff;
+            font-size: 1.25rem;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 1rem;
+        }
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .toggle-dark {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            margin-top: 2rem;
+        }
+        section {
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 2rem;
+            color: var(--bg-1);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        input, textarea {
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid var(--muted);
+            border-radius: 8px;
+            background: #f3f4f6;
+            color: var(--text);
+            transition: border-color 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 5px rgba(217, 119, 6, 0.3);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            padding: 0.8rem;
+            font-size: 1rem;
+            background: var(--accent);
+            color: #f3f4f6;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background: #b45309;
+            transform: translateY(-3px);
+        }
+        .chip {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 999px;
+            font-size: 0.85rem;
+            margin-right: 0.4rem;
+            border: 1px solid rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+        footer {
+            background: var(--footer);
+            color: #f3f4f6;
+            padding: 2rem;
+            text-align: center;
+        }
+        footer p {
+            margin-bottom: 1rem;
+        }
+        .social-icons a {
+            color: #f3f4f6;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.25rem; }
+            .container { padding: 1.25rem; margin: 1rem; }
+            nav a { margin: 0 0.4rem; font-size: 0.95rem; }
+            .nav-toggle { display: inline-flex; }
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: linear-gradient(180deg, var(--header-from), var(--header-to));
+                padding: 1rem;
+                border-radius: 8px;
+                margin: 0.5rem;
+            }
+        }
+        .dark {
+            --bg-1: #0b1220;
+            --bg-2: #0f1724;
+            --text: #e6eef8;
+            --surface: #0f1724;
+            --muted: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div style="display:flex;flex-direction:column">
+                <h1 style="line-height:1">Manual Labor Kenya</h1>
+                <small style="opacity:0.9;font-weight:300">Connecting Skilled Workers and Clients Across Kenya</small>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="toggle-dark" id="darkToggle" aria-pressed="false">🌙</button>
+            <button class="nav-toggle" id="navToggle" aria-label="Open navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html#home">Home</a>
+                <a href="workers.html">Find Workers</a>
+                <a href="post-job.html">Post Job</a>
+                <a href="saved-jobs.html">Saved Jobs</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="index.html#about">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="post-job">
+            <h2>Post a Job</h2>
+            <p>Need work done? Post your job details — this example saves the job locally (demo).</p>
+            <div style="display:flex;gap:0.5rem">
+                <button id="openPostModal" class="chip">Open Post Job Modal</button>
+                <button onclick="window.location.href='saved-jobs.html'" class="chip">View Saved Jobs</button>
+            </div>
+            <div id="postModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;padding:1rem;z-index:40">
+                <div style="background:var(--surface);padding:1.25rem;border-radius:8px;max-width:640px;width:100%;box-shadow:0 10px 30px rgba(2,6,23,0.4);">
+                    <h3>Post a Job (demo)</h3>
+                    <form id="postJobForm">
+                        <input type="text" name="job_title" placeholder="Job Title (e.g., Plumbing Repair)" required>
+                        <textarea name="description" placeholder="Describe the job in detail..." required></textarea>
+                        <input type="text" name="location" placeholder="Location (e.g., Nairobi)" required>
+                        <input type="email" name="client_email" placeholder="Your Email Address" required>
+                        <input type="tel" name="client_phone" placeholder="Your Phone Number (optional)">
+                        <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem">
+                            <button type="button" id="closeModal" class="chip">Cancel</button>
+                            <button type="submit" class="chip">Save Job</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Manual Labor Kenya. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        const $ = selector => document.querySelector(selector);
+        const $$ = selector => Array.from(document.querySelectorAll(selector));
+
+        const navToggle = $('#navToggle');
+        const navMenu = $('#navMenu');
+        navToggle && navToggle.addEventListener('click', () => toggleNav());
+        function toggleNav(force) {
+            const isShown = navMenu && (navMenu.style.display === 'flex' || getComputedStyle(navMenu).display === 'flex');
+            const show = force !== undefined ? force : !isShown;
+            if (!navMenu) return;
+            navMenu.style.display = show ? 'flex' : 'none';
+        }
+
+        const darkToggle = $('#darkToggle');
+        darkToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            darkToggle.setAttribute('aria-pressed', String(isDark));
+            darkToggle.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('mlk_dark', isDark ? '1' : '0');
+        });
+        if (localStorage.getItem('mlk_dark') === '1') {
+            document.documentElement.classList.add('dark');
+            darkToggle.textContent = '☀️';
+            darkToggle.setAttribute('aria-pressed', 'true');
+        }
+
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.12 });
+
+        sections.forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+            observer.observe(section);
+        });
+
+        const savedJobsKey = 'mlk_saved_jobs';
+        function saveJob(job) {
+            const existing = JSON.parse(localStorage.getItem(savedJobsKey) || '[]');
+            existing.push(job);
+            localStorage.setItem(savedJobsKey, JSON.stringify(existing));
+        }
+
+        const openModal = $('#openPostModal');
+        const postModal = $('#postModal');
+        const closeModal = $('#closeModal');
+        const postForm = $('#postJobForm');
+
+        openModal.addEventListener('click', () => postModal.style.display = 'flex');
+        closeModal.addEventListener('click', () => postModal.style.display = 'none');
+        postModal.addEventListener('click', (e) => { if (e.target === postModal) postModal.style.display = 'none'; });
+
+        postForm && postForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fd = new FormData(postForm);
+            const job = {
+                title: fd.get('job_title'),
+                description: fd.get('description'),
+                location: fd.get('location'),
+                email: fd.get('client_email'),
+                phone: fd.get('client_phone'),
+                savedAt: Date.now()
+            };
+            saveJob(job);
+            postModal.style.display = 'none';
+            postForm.reset();
+            alert('Job saved locally (demo). View in Saved Jobs page.');
+        });
+    </script>
+</body>
+</html>
