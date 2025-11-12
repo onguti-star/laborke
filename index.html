@@ -1,571 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual Labor Kenya - Connect Workers and Clients</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-1: #1a2b4a;
-            --bg-2: #2a5f6a;
-            --muted: #9ca3af;
-            --accent: #d97706;
-            --surface: #e5e7eb;
-            --text: #1f2937;
-            --header-from: #6b4e8e;
-            --header-to: #4a6f9c;
-            --footer: #1e293b;
-            --glass: rgba(255,255,255,0.06);
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body { height: 100%; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Labor Kenya - Connect Workers and Clients</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --bg-1: #1a2b4a;
+  --bg-2: #2a5f6a;
+  --muted: #9ca3af;
+  --accent: #d97706;
+  --surface: #e5e7eb;
+  --text: #1f2937;
+  --header-from: #6b4e8e;
+  --header-to: #4a6f9c;
+  --footer: #1e293b;
+  --glass: rgba(255,255,255,0.06);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-        /* Animation Classes - Fixed */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+/* Header */
+header {
+  background: linear-gradient(to right, var(--header-from), var(--header-to));
+  color: #f3f4f6;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 100;
+}
+header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #f3f4f6;
+}
+header small {
+  color: rgba(243, 244, 246, 0.9);
+  font-weight: 300;
+}
+.brand { display: flex; flex-direction: column; }
 
-        .floating { 
-            animation: float 6s ease-in-out infinite; 
-        }
-        .floating:nth-child(2) { animation-delay: -2s; }
-        .floating:nth-child(3) { animation-delay: -4s; }
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+nav a {
+  color: #f3f4f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+}
+nav a:hover {
+  color: var(--accent);
+  background: rgba(255,255,255,0.1);
+}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
+/* ======= ENCLOSED HAMBURGER BUTTON ======= */
+.nav-toggle {
+  display: none;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.5rem 0.7rem;
+  z-index: 1002;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+.nav-toggle:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.05);
+}
 
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(217, 119, 6, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(217, 119, 6, 0.6); }
-        }
+.nav-menu { display: flex; gap: 1rem; }
 
-        /* Particle Background */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(217, 119, 6, 0.6);
-            border-radius: 50%;
-            animation: particle-float 25s linear infinite;
-        }
-        @keyframes particle-float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
+/* Hero */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)),
+  url('https://images.unsplash.com/photo-1504307651254-35680f356847') no-repeat center center/cover;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f3f4f6;
+}
+.hero h2 { font-size: 3rem; margin-bottom: 1rem; }
+.hero p { font-size: 1.3rem; margin-bottom: 1.5rem; }
+.hero button {
+  margin: 0.5rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, var(--accent), #b45309);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.hero button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4);
+}
 
-        /* Header - Fixed text visibility */
-        header {
-            background: linear-gradient(to right, var(--header-from), var(--header-to));
-            color: #f3f4f6 !important;
-            padding: 1.25rem 2rem;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            animation: slideDown 1s ease-out;
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-100px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* Container */
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  background: var(--surface);
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+section { margin-bottom: 3rem; }
+h2 {
+  font-size: 2rem;
+  color: var(--bg-1);
+  margin-bottom: 1rem;
+}
+h2::after {
+  content: '';
+  width: 50px;
+  height: 3px;
+  background: var(--accent);
+  display: block;
+  margin-top: 5px;
+}
 
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #f3f4f6 !important;
-            animation: fadeInDown 1s ease-in-out;
-            text-shadow: 0 0 10px rgba(217, 119, 6, 0.3);
-        }
+/* Footer */
+footer {
+  background: var(--footer);
+  color: #f3f4f6;
+  padding: 2rem;
+  text-align: center;
+}
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.social-icons a {
+  color: #f3f4f6;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  transition: all 0.3s;
+}
+.social-icons a:hover {
+  color: var(--accent);
+  transform: translateY(-5px) scale(1.1);
+  background: rgba(217, 119, 6, 0.2);
+}
 
-        header small {
-            color: rgba(243, 244, 246, 0.9) !important;
-            font-weight: 300;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s both;
-        }
+/* ===== RESPONSIVE MENU (small laptops & phones) ===== */
+@media (max-width: 1024px) {
+  .nav-toggle { display: inline-flex; }
 
-        .brand { display: flex; align-items: center; gap: 1rem; }
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        nav a {
-            color: #f3f4f6 !important;
-            margin: 0 0.5rem;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-        }
-        nav a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(217, 119, 6, 0.1);
-            border-radius: 25px;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-            z-index: -1;
-        }
-        nav a:hover::before { transform: scaleX(1); }
-        nav a:hover {
-            color: var(--accent) !important;
-            transform: translateY(-2px);
-        }
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 1.5rem;
+    background: linear-gradient(180deg, var(--header-from), var(--header-to));
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    width: 220px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: dropdownFade 0.3s ease;
+    z-index: 1001;
+  }
+  .nav-menu.show { display: flex !important; }
 
-        .nav-toggle {
-            display: none;
-            background: transparent;
-            border: 0;
-            color: #fff !important;
-            font-size: 1.25rem;
-            transition: transform 0.3s ease;
-        }
-        .nav-toggle:hover { transform: rotate(90deg); }
+  .nav-menu a {
+    display: block;
+    padding: 0.75rem 0;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-menu a:last-child { border-bottom: none; }
 
-        .nav-menu { display: flex; gap: 1rem; }
-        .controls { display: flex; gap: 0.5rem; align-items: center; }
-        .toggle-dark {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.18);
-            color: #fff !important;
-            padding: 0.35rem 0.6rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .toggle-dark:hover {
-            background: rgba(217, 119, 6, 0.2);
-            transform: scale(1.1);
-        }
-
-        /* Hero Section - Fixed */
-        .hero {
-            background: 
-                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)),
-                url('https://images.unsplash.com/photo-1504307651254-35680f356847') no-repeat center center/cover;
-            height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #f3f4f6 !important;
-            position: relative;
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            padding: 0 2rem;
-            animation: fadeInUp 1.2s ease-out;
-        }
-
-        .hero h2 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #f3f4f6 !important;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            font-weight: 300;
-            max-width: 600px;
-            margin: 0 auto 1.5rem;
-            color: #f3f4f6 !important;
-            animation: fadeInUp 1s ease-out 0.8s both;
-        }
-
-        .hero button {
-            margin: 0 0.5rem;
-            padding: 0.8rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, var(--accent), #b45309);
-            color: #f3f4f6 !important;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .hero button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: var(--surface);
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            margin-bottom: 3rem;
-            margin-top: 2rem;
-            color: var(--text) !important;
-            animation: slideUpContainer 1s ease-out 1s both;
-        }
-
-        @keyframes slideUpContainer {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        section {
-            margin-bottom: 3rem;
-        }
-
-        h2 {
-            font-size: 2rem;
-            color: var(--bg-1) !important;
-            margin-bottom: 1rem;
-            position: relative;
-            animation: fadeInUp 0.8s ease-out;
-        }
-        h2::after {
-            content: '';
-            width: 50px;
-            height: 3px;
-            background: var(--accent);
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            animation: expandUnderline 0.8s ease-out;
-        }
-        @keyframes expandUnderline {
-            from { width: 0; }
-            to { width: 50px; }
-        }
-
-        /* Contact Details */
-        .contact-details {
-            display: grid;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
-            background: white;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            color: var(--text) !important;
-        }
-        .contact-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .contact-item i {
-            color: var(--accent) !important;
-            font-size: 1.2rem;
-            width: 30px;
-            text-align: center;
-        }
-        .contact-item a {
-            color: var(--text) !important;
-            text-decoration: none;
-        }
-        .contact-item a:hover {
-            color: var(--accent) !important;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--footer);
-            color: #f3f4f6 !important;
-            padding: 2rem;
-            text-align: center;
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .social-icons a {
-            color: #f3f4f6 !important;
-            font-size: 1.5rem;
-            transition: all 0.4s ease;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-        }
-        .social-icons a:hover {
-            color: var(--accent) !important;
-            transform: translateY(-5px) scale(1.1);
-            background: rgba(217, 119, 6, 0.2);
-        }
-
-        /* Original Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header h1 { font-size: 1.25rem; }
-            .hero h2 { font-size: 1.75rem; }
-            .hero p { font-size: 0.95rem; }
-            .container { padding: 1.25rem; margin: 1rem; }
-            .nav-toggle { display: inline-flex; }
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                right: 0;
-                background: linear-gradient(180deg, var(--header-from), var(--header-to));
-                padding: 1rem;
-                border-radius: 8px;
-                margin: 0.5rem;
-            }
-            .nav-menu.show { display: flex !important; }
-            .hero { 
-                flex-direction: column;
-                text-align: center;
-            }
-            .hero button { 
-                margin: 0.5rem;
-                width: 100%;
-                max-width: 250px;
-            }
-        }
-
-        /* Dark Mode */
-        .dark {
-            --bg-1: #0b1220;
-            --bg-2: #0f1724;
-            --text: #e6eef8;
-            --surface: #0f1724;
-            --muted: #94a3b8;
-        }
-        .dark .container { background: var(--surface) !important; color: var(--text) !important; }
-        .dark .contact-item { background: rgba(255,255,255,0.05); color: var(--text) !important; }
-        .dark h2 { color: var(--text) !important; }
-    </style>
+  @keyframes dropdownFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+</style>
 </head>
+
 <body>
-    <div class="particles" id="particles"></div>
+<header>
+  <div class="brand">
+    <h1>Manual Labor Kenya</h1>
+    <small>Connecting Skilled Workers and Clients Across Kenya</small>
+  </div>
 
-    <header>
-        <div class="brand">
-            <div style="display:flex;flex-direction:column">
-                <h1>Manual Labor Kenya</h1>
-                <small>Connecting Skilled Workers and Clients Across Kenya</small>
-            </div>
-        </div>
-        <div class="controls">
-            <button class="toggle-dark floating" id="darkToggle" aria-pressed="false">🌙</button>
-            <button class="nav-toggle" id="navToggle" aria-label="Open navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav class="nav-menu" id="navMenu">
-                <a href="#home">Home</a>
-                <a href="workers.html">Find Workers</a>
-                <a href="post-job.html">Post Job</a>
-                <a href="saved-jobs.html">Saved Jobs</a>
-                <a href="#contact">Contact</a>
-                <a href="#about">About Us</a>
-            </nav>
-        </div>
-    </header>
+  <div class="controls">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <nav class="nav-menu" id="navMenu">
+      <a href="#home">Home</a>
+      <a href="workers.html">Find Workers</a>
+      <a href="post-job.html">Post Job</a>
+      <a href="saved-jobs.html">Saved Jobs</a>
+      <a href="#contact">Contact</a>
+      <a href="#about">About Us</a>
+    </nav>
+  </div>
+</header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2>Find Your Perfect Worker Today</h2>
-            <p>Discover skilled plumbers, electricians, carpenters, and more to get your projects done efficiently.</p>
-            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-                <button onclick="window.location.href='workers.html'">Find Workers</button>
-                <button onclick="window.location.href='post-job.html'">Post a Job</button>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+  <div class="hero-content">
+    <h2>Find Your Perfect Worker Today</h2>
+    <p>Discover skilled plumbers, electricians, carpenters, and more to get your projects done efficiently.</p>
+    <button onclick="window.location.href='workers.html'">Find Workers</button>
+    <button onclick="window.location.href='post-job.html'">Post a Job</button>
+  </div>
+</section>
 
-    <div class="container">
-        <section id="home" class="animate-on-scroll">
-            <h2>Welcome to Manual Labor Kenya</h2>
-            <p>Our platform is designed to bridge the gap between skilled manual laborers and clients across Kenya. Whether you need a plumber, electrician, or carpenter, we make it easy to find the right professional for your job.</p>
-            <p>With a user-friendly interface and a commitment to quality, Manual Labor Kenya ensures that both workers and clients have a seamless experience.</p>
-        </section>
+<div class="container" id="home">
+  <section>
+    <h2>Welcome to Manual Labor Kenya</h2>
+    <p>Our platform bridges the gap between skilled manual laborers and clients across Kenya. Whether you need a plumber, electrician, or carpenter, we make it easy to find the right professional for your job.</p>
+  </section>
 
-        <section id="about" class="animate-on-scroll">
-            <h2>About Us</h2>
-            <p>Manual Labor Kenya was founded with a mission to empower skilled workers or those who are looking for any manual labor opportunities and provide clients with reliable, high-quality services. We are passionate about creating opportunities and building trust within communities across Kenya.</p>
-            <p>Our platform is built on transparency, efficiency, and a commitment to excellence, ensuring that every job is completed to satisfaction.</p>
-        </section>
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Manual Labor Kenya was founded to empower skilled workers and provide clients with reliable, high-quality services. We are passionate about creating opportunities and building trust within communities across Kenya.</p>
+  </section>
 
-        <section id="contact" class="animate-on-scroll">
-            <h2>Contact Us</h2>
-            <p>Have questions or need assistance? Reach out to our team!</p>
-            <div class="contact-details">
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <p><a href="mailto:info@manuallabor.co.ke">Email: info@manuallabor.co.ke</a></p>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <p>Phone: +254 752 631 287</p>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p>Address: 123 Labor Lane, Nairobi, Kenya</p>
-                </div>
-            </div>
-        </section>
-    </div>
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Have questions or need assistance? Reach out to our team!</p>
+    <p>Email: <a href="mailto:info@manuallabor.co.ke">info@manuallabor.co.ke</a></p>
+    <p>Phone: +254 752 631 287</p>
+  </section>
+</div>
 
-    <footer>
-        <p>© 2025 Manual Labor Kenya. All Rights Reserved.</p>
-        <div class="social-icons">
-            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-        </div>
-    </footer>
+<footer>
+  <p>© 2025 Manual Labor Kenya. All Rights Reserved.</p>
+  <div class="social-icons">
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+  </div>
+</footer>
 
-    <script>
-    const $ = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
+<script>
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
 
-    // ---------- MOBILE MENU TOGGLE (FIXED) ----------
-    const navToggle = $('#navToggle');
-    const navMenu = $('#navMenu');
+// Toggle menu
+navToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  navMenu.classList.toggle('show');
+});
 
-    // Toggle menu when hamburger is clicked
-    navToggle?.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent click from bubbling
-        navMenu.classList.toggle('show');
-    });
+// Close menu on link click
+navMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('show');
+  });
+});
 
-    // Close menu when any nav link is clicked
-    $$('#navMenu a').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('show');
-        });
-    });
-
-    // Close menu if clicking outside
-    document.addEventListener('click', (e) => {
-        if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-            navMenu.classList.remove('show');
-        }
-    });
-
-    // ---------- SMOOTH SCROLL FOR # LINKS ----------
-    $$('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', e => {
-            const href = a.getAttribute('href');
-            if (href.startsWith('#') && href !== '#') {
-                e.preventDefault();
-                const target = $(href);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-            // Close mobile menu after clicking any link
-            navMenu.classList.remove('show');
-        });
-    });
-
-    // ---------- DARK MODE ----------
-    const darkToggle = $('#darkToggle');
-    darkToggle?.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.toggle('dark');
-        darkToggle.textContent = isDark ? 'Sun' : 'Moon';
-        darkToggle.setAttribute('aria-pressed', String(isDark));
-        localStorage.setItem('mlk_dark', isDark ? '1' : '0');
-    });
-
-    if (localStorage.getItem('mlk_dark') === '1') {
-        document.documentElement.classList.add('dark');
-        darkToggle.textContent = 'Sun';
-        darkToggle.setAttribute('aria-pressed', 'true');
-    }
-
-    // ---------- SCROLL ANIMATIONS ----------
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-    }, { threshold: 0.1 });
-    $$('.animate-on-scroll').forEach(el => observer.observe(el));
-
-    // ---------- PARTICLES ----------
-    function createParticles() {
-        const container = $('#particles');
-        for (let i = 0; i < 30; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            p.style.animationDelay = Math.random() * 20 + 's';
-            container.appendChild(p);
-        }
-    }
-    createParticles();
+// Close if click outside
+document.addEventListener('click', (e) => {
+  if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+    navMenu.classList.remove('show');
+  }
+});
 </script>
+</body>
+</html>
